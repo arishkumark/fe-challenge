@@ -1,45 +1,55 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
+import { FormattedMessage } from "react-intl";
+import { RadioGroup, FormControlLabel, Radio } from '@mui/material';
 import { setVisibility } from './todoSlice';
+
 const filterData = [
   {
     id: 'showAll',
-    label: 'Show all',
+    label: <FormattedMessage id="filter.SHOW_ALL" />,
     value: 'SHOW_ALL'
   },
   {
     id: 'showOpen',
-    label: 'Show Open',
+    label: <FormattedMessage id="filter.SHOW_OPEN" />,
     value: 'SHOW_OPEN'
   },
   {
     id: 'showClosed',
-    label: 'Show Closed',
+    label: <FormattedMessage id="filter.SHOW_CLOSED" />,
     value: 'SHOW_CLOSED'
   }
-]
+];
 
 const Filter = ({ data }) => {
+  const [value, setvalue] = useState(data);
   const dispatch = useDispatch();
 
+  const handleChange = (value) => {
+    dispatch(setVisibility(value));
+    setvalue(value);
+  }
+
   return (
-    <div>
+    <RadioGroup
+      row
+      aria-label="filter"
+      name="filter-radio-buttons-group"
+      value={value}
+      onChange={(e) => handleChange(e.target.value)}
+    >
       {
         filterData.map((item, index) => (
-          <span key={`item${index}`}>
-            <input
-              id={item.id}
-              type="radio"
-              value={item.value}
-              name={item.id}
-              checked={data === item.value ? 'checked' : ''}
-              onChange={() => dispatch(setVisibility(item.value))}
-            />
-            <label for={item.id}>{item.label}</label>
-          </span>
+          <FormControlLabel
+            key={`radio${index}`}
+            value={item.value}
+            control={<Radio />}
+            label={item.label}
+          />
         ))
       }
-    </div>
+    </RadioGroup>
   )
 }
 

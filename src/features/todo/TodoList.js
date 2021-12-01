@@ -1,8 +1,21 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import { withStyles } from '@mui/styles';
+import { List, ListItem, ListItemButton, ListItemIcon, Checkbox, ListItemText } from '@mui/material';
 import { toggle } from './todoSlice';
 
-const TodoList = ({ data, filter }) => {
+
+const Styles = () => ({
+  listItemCompleted: {
+    background: '#c8f1cf',
+    marginBottom: 5
+  },
+  listItem: {
+    marginBottom: 5
+  }
+})
+
+const TodoList = ({ data, filter, classes }) => {
   const dispatch = useDispatch();
   let listData = data;
   if (filter === 'SHOW_OPEN') {
@@ -12,25 +25,30 @@ const TodoList = ({ data, filter }) => {
     listData = data.filter(todo => todo.completed)
   }
   return (
-    <div>
-      <ul>
+    <List>
       {
         listData.map((item, index) => (
-          <li key={`list${index}`} class={`todoList${item.completed && ' checked'}`}>
-            <input
-              type="checkbox"
-              data-id={item.id}
-              value={item.title}
-              checked={item.completed ? 'checked' : ''}
-              onChange={() => dispatch(toggle(item.id))}
-            />
-            <label>{item.title}</label>
-          </li>
+          <ListItem
+            key={`list${index}`}  
+            disablePadding
+            classes={{ root: item.completed ? classes.listItemCompleted : classes.listItem}}>
+            <ListItemButton onClick={() => dispatch(toggle(item.id))} dense>
+              <ListItemIcon>
+                <Checkbox
+                  edge="start"
+                  checked={item.completed}
+                  disableRipple
+                  inputProps={{ 'aria-labelledby': item.id }}
+                  tabIndex={-1}
+                />
+              </ListItemIcon>
+              <ListItemText id={item.id} primary={item.title}/>
+            </ListItemButton>
+          </ListItem>
         ))
       }
-      </ul>
-    </div>
+    </List>
   )
 }
 
-export default TodoList;
+export default withStyles(Styles)(TodoList);

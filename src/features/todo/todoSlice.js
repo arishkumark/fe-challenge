@@ -1,3 +1,5 @@
+import { createSlice } from '@reduxjs/toolkit';
+
 const uniqueId = {
   currentId: 0,
   get() {
@@ -6,8 +8,8 @@ const uniqueId = {
   }
 };
 
-export const initialState = {
-  todos: [
+const initialState = {
+  list: [
     {
       id: uniqueId.get(),
       title: 'JS-101',
@@ -30,28 +32,37 @@ export const initialState = {
     }
   ],
   visibilityFilter: 'SHOW_ALL'
-};
+}
 
-export default (state = initialState, action) => {
-  switch (action.type) {
-    case 'ADD':
-      state.todos.push({
+
+
+const todoSlice = createSlice({
+  name: 'todos',
+  initialState,
+  reducers: {
+    addTodo: (state, action) => {
+      state.list.push({
         id: uniqueId.get(),
-        title: action.title,
+        title: action.payload,
         completed: false
       });
-      return state;
-    case 'TOGGLE':
-      for (let todo of state.todos) {
-        if (todo.id === action.id) {
+    },
+    toggle: (state, action) => {
+      for (let todo of state.list) {
+        if (todo.id === action.payload) {
           todo.completed = !todo.completed;
         }
       }
-      return state;
-    case 'SET_VISIBILITY':
-      state.visibilityFilter = action.filter
-      return state;
-    default:
-      return state;
+    },
+    setVisibility: (state, action) => {
+      state.visibilityFilter = action.payload;
+    }
   }
-}
+});
+
+export const {
+  addTodo,
+  toggle,
+  setVisibility
+} = todoSlice.actions
+export default todoSlice.reducer

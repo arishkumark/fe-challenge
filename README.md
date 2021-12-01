@@ -1,88 +1,44 @@
-# JS Code Challenge
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
 
-### Install
+## Available Scripts
 
-```sh
-npm install
-# or
-yarn
-```
+In the project directory, you can run:
 
-### Run the app
+### `yarn start`
 
-```sh
-npm start
-# or
-yarn start
-```
+Runs the app in the development mode.<br />
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-Then application is available on `http://localhost:8080`.
+The page will reload if you make edits.<br />
+You will also see any lint errors in the console.
 
-## Tasks
+### `yarn test`
 
-Here is a simple todo list, written with minimal use of libraries.
+Launches the test runner in the interactive watch mode.<br />
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-In the tasks below, it is proposed to extend and improve the application. Each task covers some part of
-frontend engineering. 
+### `yarn build`
 
-Please read tasks carefully and give us your time estimation. If you have any questions, please do not hesitate
-to contact us.
+Builds the app for production to the `build` folder.<br />
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-After solving of all tasks please make a pull request. Please for each task create separate commit with
-same name as title of task.
+The build is minified and the filenames include the hashes.<br />
+Your app is ready to be deployed!
 
-### JS-101: Add item on press Enter
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-Our users are complaining, that they are used to submit value on pressing Enter, but it doesn't work
-in our application.
+### `yarn eject`
 
-Please provide ability to add item with pressing `enter` key.
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-### JS-102: Add filters
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Please provide such filters: 
-- "Show all" (default)
-- "Show open" (display all items with `done: false`)
-- "Show closed" (display all items with `done: true`)
+Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-Filters should be implemented with radio buttons.
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-### JS-201: Replace the store
+## Learn More
 
-When our developers finished building the store, 
-they realized that there was already a well-known library with very similar functionality.
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-Please replace our self-written solution with redux.
-
-### JS-202: Optimize rendering
-
-Current vanilla-js solution makes quite a lot unnecessary rerenders. Also it's hard to extend. 
-
-1. Please replace `innerHTML`-solution by `react` and make sure it doesn't make unnecessary rerenders.
-2. Update event listeners
-3. Feel free to update structure of project
-
-### JS-203: Update styling
-
-Our designers recommended to update design of the application since current design is too ascetic. 
-
-Feel free to choose any existing design or to build your own.  
-
-By the way, other teams in our company use css-in-js approach ([JSS](https://github.com/cssinjs/jss)),
-and it would be more consistent if we have it in our project too. 
-
-### JS-301: Update bundling
-
-1. Please make production build for this app on `npm run build`. Both css and js bundles should be minified and uglyfied
-2. `react` and `react-dom` in production build should be taken from CDN
-3. Optional: please implement server side rendering
-
-### JS-302: Real API
-
-Please use some open source API (e.g. https://jsonplaceholder.typicode.com) to get, update, toggle and delete
-the todo item.
-
-Optional: if you did server side rendering in JS-204, please find a way to make universal GET call for the list:
-
-1. If user opens the page without query parameters, make client-side request
-2. If user opens the page with `/?server=true`, make server-side request
+To learn React, check out the [React documentation](https://reactjs.org/).

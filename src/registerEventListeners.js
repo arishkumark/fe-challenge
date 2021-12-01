@@ -9,12 +9,22 @@ function addListener(eventName, selector, callback) {
   });
 }
 
-addListener('click', '[data-element="addTodoButton"]', () => {
+function handleAdd() {
   const todoInput = document.querySelector('[data-element="addTodoInput"]');
   store.dispatch(todoActions.add(todoInput.value));
+}
+
+addListener('click', '[data-element="addTodoButton"]', () => {
+  handleAdd()
 });
 
 addListener('click', '[data-element="toggleTodo"]', e => {
   const id = Number(e.target.dataset.id);
   store.dispatch(todoActions.toggle(id));
+});
+
+addListener('keypress', '[data-element="addTodoInput"]', e => {
+  if (e.key === 'Enter') {
+    handleAdd();
+  }
 });

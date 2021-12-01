@@ -40,17 +40,18 @@ export default (state = initialState, action) => {
         title: action.title,
         completed: false
       });
-      break;
+      return state;
     case 'TOGGLE':
       for (let todo of state.todos) {
         if (todo.id === action.id) {
           todo.completed = !todo.completed;
-          break;
         }
       }
-      break;
+      return state;
     case 'SET_VISIBILITY':
       state.visibilityFilter = action.filter
-      break;
+      return state;
+    default:
+      return state;
   }
 }

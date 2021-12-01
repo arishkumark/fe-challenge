@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { withStyles } from '@mui/styles';
 import { Box, TextField, Button } from '@mui/material';
 import { FormattedMessage } from "react-intl";
 import Filter from './Filter';
 import TodoList from './TodoList';
-import { addTodo } from './todoSlice';
+import { addTodo, fetchTodos } from './todoSlice';
 
 const Styles = theme => ({
   container: {
@@ -36,9 +36,13 @@ const Todo = ({ classes }) => {
   const[inputVal, setInputVal] = useState('')
   const todos = useSelector(store => store.todos);
   const dispatch = useDispatch();
+console.log(todos)
+  useEffect(() => {
+    dispatch(fetchTodos({ pageNumber: 1, limit: 6 }));
+  }, [dispatch])
 
   const handleAdd = () => {
-    dispatch(addTodo(inputVal));
+    dispatch(addTodo({ inputVal, userId: 1 }));
     setInputVal('');
   }
 
@@ -60,7 +64,7 @@ const Todo = ({ classes }) => {
         </Button>
       </Box>
       <Filter data={todos.visibilityFilter} />
-      <TodoList data={todos.list} filter={todos.visibilityFilter} />
+      <TodoList data={todos.list} filter={todos.visibilityFilter} status={todos.status} />
     </Box>
   )
 }

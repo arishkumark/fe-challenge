@@ -1,37 +1,27 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-const uniqueId = {
-  currentId: 0,
-  get() {
-    this.currentId += 1;
-    return this.currentId;
-  }
-};
+export const fetchTodos = createAsyncThunk('todos/fetch', async({pageNumber=1, limit=5}) => {
+  const res = await fetch(`https://jsonplaceholder.typicode.com/todos?_page=${pageNumber}&_limit=${limit}`);
+  return res.json();
+})
+
+export const updateTodos = createAsyncThunk('todos/update', async(data) => {
+  const res = await fetch(`https://jsonplaceholder.typicode.com/todos/${data.id}`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      id: data.id,
+      title: data.title,
+      completed: !data.completed,
+      userId: data.userId,
+    }),
+  });
+  return res.json();
+})
 
 const initialState = {
-  list: [
-    {
-      id: uniqueId.get(),
-      title: 'JS-101',
-      completed: true
-    },
-    {
-      id: uniqueId.get(),
-      title: 'JS-102',
-      completed: false
-    },
-    {
-      id: uniqueId.get(),
-      title: 'JS-201',
-      completed: false
-    },
-    {
-      id: uniqueId.get(),
-      title: 'JS-202',
-      completed: false
-    }
-  ],
-  visibilityFilter: 'SHOW_ALL'
+  list: [],
+  visibilityFilter: 'SHOW_ALL',
+  status: null
 }
 
 
@@ -42,9 +32,10 @@ const todoSlice = createSlice({
   reducers: {
     addTodo: (state, action) => {
       state.list.push({
-        id: uniqueId.get(),
-        title: action.payload,
-        completed: false
+        id: state.list.length + 1,
+        title: action.payload.inputVal,
+        completed: false,
+        userId: action.payload.userId
       });
     },
     toggle: (state, action) => {
@@ -57,6 +48,33 @@ const todoSlice = createSlice({
     setVisibility: (state, action) => {
       state.visibilityFilter = action.payload;
     }
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchTodos.pending, (state) => {
+      state.status = 'pending'
+    })
+    builder.addCase(fetchTodos.fulfilled, (state, action) => {
+      state.list = action.payload
+      state.status = 'success'
+    })
+    builder.addCase(fetchTodos.rejected, (state) => {
+      state.status = 'error'
+    })
+
+    builder.addCase(updateTodos.pending, (state) => {
+      state.status = 'pending'
+    })
+    builder.addCase(updateTodos.fulfilled, (state, action) => {
+      for (let todo of state.list) {
+        if (todo.id === action.payload.id) {
+          todo.completed = !todo.completed;
+        }
+      }
+      state.status = 'success'
+    })
+    builder.addCase(updateTodos.rejected, (state) => {
+      state.status = 'error'
+    })
   }
 });
 

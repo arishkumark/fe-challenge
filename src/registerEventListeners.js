@@ -28,3 +28,8 @@ addListener('keypress', '[data-element="addTodoInput"]', e => {
     handleAdd();
   }
 });
+
+addListener('click', '[data-element="toggleFilter"]', e => {
+  const filter = e.target.value;
+  store.dispatch(todoActions.setVisibility(filter));
+});
